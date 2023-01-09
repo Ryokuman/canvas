@@ -16,7 +16,7 @@ function Login() {
         </LoginContainer>
         <LoginContainer direction="row">
           <LoginTypo margin="0 4px 0 -10px">비밀번호가 기억나지 않으시나요? </LoginTypo>
-          <LoginLink to="./">비밀번호 찾기</LoginLink>
+          <LoginLink to="../findpassword">비밀번호 찾기</LoginLink>
         </LoginContainer>
       </LoginContainer>
     </Container>
