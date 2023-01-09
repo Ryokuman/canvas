@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import fonts from "../assets/fonts/fonts";
+import fonts from "@assets/fonts/fonts";
 
 type propsType = {
   width?: number;
