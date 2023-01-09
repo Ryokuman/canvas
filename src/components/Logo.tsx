@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
-import logo_1 from "../assets/images/logo_1.png";
-import logo_2 from "../assets/images/logo_2.png";
+import logo_1 from "@assets/images/logo_1.png";
+import logo_2 from "@assets/images/logo_2.png";
 
 type propsType = {
   width?: number;
