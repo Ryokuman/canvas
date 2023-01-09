@@ -7,8 +7,8 @@ type propsType = {
 };
 
 const Container = styled.div<propsType>`
-  width: ${(props) => props.width || "100%"};
-  height: ${(props) => props.height || "100%"};
+  width: ${(props) => props.width || "100vw"};
+  height: ${(props) => props.height || "100vh"};
   background-color: ${(props) => props.color || "#F7F8FB"};
 `;
 

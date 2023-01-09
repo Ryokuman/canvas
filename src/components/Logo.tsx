@@ -1,18 +1,37 @@
-import styled from "styled-components";
-import logo_2 from "@assets/images/logo_2.png";
-import logo_1 from "@assets/images/logo_1.png";
+import styled, { css } from "styled-components";
+import logo_1 from "../assets/images/logo_1.png";
+import logo_2 from "../assets/images/logo_2.png";
 
 type propsType = {
   width?: number;
-  height?: number;
-  num?: number;
+  type: number;
 };
 
-const Logo = styled.image.attrs((props: propsType) => {
-  src: props.num === 1 ? logo_1 : logo_2;
-})<propsType>`
-  width: ${(props) => props.width};
-  height: ${(props) => props.height};
+const Logo = styled.div<propsType>`
+  ${(props: propsType) => {
+    let type;
+    let width;
+    let height;
+
+    if (props.type === 1) {
+      type = logo_1;
+      width = props.width || 100;
+      height = width * 1.34;
+    }
+    if (props.type === 2) {
+      type = logo_2;
+      width = props.width || 100;
+      height = width * 0.53;
+    }
+
+    return css`
+      width: ${width + "px"};
+      height: ${height + "px"};
+      background-image: url(${type});
+      background-size: cover;
+      background-repeat: no-repeat;
+    `;
+  }}
 `;
 
 export default Logo;
