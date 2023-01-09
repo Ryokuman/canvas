@@ -4,6 +4,7 @@ import logo_2 from "@assets/images/logo_2.png";
 
 type propsType = {
   width?: number;
+  margin?: string;
   type: number;
 };
 
@@ -32,6 +33,7 @@ const Logo = styled.div<propsType>`
       background-repeat: no-repeat;
     `;
   }}
+  margin:${(props) => props.margin}
 `;
 
 export default Logo;
