@@ -11,12 +11,10 @@ type propsType = {
 };
 
 const Container = styled.div<propsType>`
-  width: ${(props) => props.width || "100vw"};
-  height: ${(props) => props.height || "100vh"};
+  width: ${(props) => props.width || "auto"};
+  height: ${(props) => props.height || "auto"};
   background-color: ${(props) => props.color || "#F7F8FB"};
-
   margin: ${(props) => props.margin};
-
   display: flex;
   flex-direction: ${(props) => props.direction || "column"};
   align-items: ${(props) => props.alginItems || "center"};
