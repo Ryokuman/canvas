@@ -15,6 +15,7 @@ const Pictogram = styled.div<PropsType>`
   width: ${(props) => props.width || "64px"};
   height: ${(props) => props.height || "64px"};
   margin: ${(props) => props.margin || "4px"};
+  cursor: pointer;
 
   ${(props) => {
     let url;
