@@ -16,10 +16,10 @@ const userData = {
 
 function Main() {
   return (
-    <Container direction="row" alginItems="flex-start">
+    <Container direction="row" width="1000px">
       <Container>
-        {postData.map((e) => (
-          <Post user={e.user} comments={e.comments} tags={e.tags} />
+        {postData.map((e, i) => (
+          <Post key={i} user={e.user} comments={e.comments} tags={e.tags} />
         ))}
       </Container>
       <Profile user={userData} />

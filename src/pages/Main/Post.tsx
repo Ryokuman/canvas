@@ -9,7 +9,7 @@ type PostProps = {
 
 function Post({ user, comments, tags }: PostProps) {
   return (
-    <Box width="800px" height="400px" margin="20px" direction="row" color="#d9d9d9">
+    <Box width="800px" height="400px" margin="20px 20px 20px 300px" direction="row" color="#d9d9d9">
       <Box width="650px" height="350px"></Box>
       <Box margin="0 0 0 10px" color="#d9d9d9">
         <Box width="100px" height="140px" color="#ffffff">
