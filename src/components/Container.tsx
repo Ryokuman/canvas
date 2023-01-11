@@ -21,8 +21,8 @@ const Container = styled.div<propsType>`
   margin: ${(props) => props.margin};
   display: flex;
   flex-direction: ${(props) => props.direction || "column"};
-  align-items: ${(props) => props.alginItems || "center"};
-  justify-content: ${(props) => props.justifyContent || "center"};
+  align-items: ${(props) => props.alginItems || "flex-start"};
+  justify-content: ${(props) => props.justifyContent || "flex-start"};
 `;
 
 export default Container;
