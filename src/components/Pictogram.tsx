@@ -12,9 +12,9 @@ type PropsType = {
 };
 
 const Pictogram = styled.div<PropsType>`
-  width: ${(props) => props.width || "90px"};
-  height: ${(props) => props.height || "90px"};
-  margin: ${(props) => props.margin};
+  width: ${(props) => props.width || "64px"};
+  height: ${(props) => props.height || "64px"};
+  margin: ${(props) => props.margin || "4px"};
 
   ${(props) => {
     let url;
