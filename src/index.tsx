@@ -14,6 +14,7 @@ const Background = styled(Container)`
   width: ${(props) => props.width || "100vw"};
   height: ${(props) => props.height || "100vh"};
   background-color: ${(props) => props.color || "#F7F8FB"};
+  justify-content: ${(props) => props.justifyContent || "flex-start"};
   position: absolute;
   overflow: scroll;
 `;
