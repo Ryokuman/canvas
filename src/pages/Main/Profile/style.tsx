@@ -7,7 +7,7 @@ type MenuBtnProps = { open?: boolean };
 const ProTypo = styled(Typography)`
   margin: 4px;
   font-size: 18px;
-  cursor: "pointer";
+  cursor: pointer;
 `;
 
 const MenuBtn = styled(Box)<MenuBtnProps>`

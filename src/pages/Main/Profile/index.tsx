@@ -5,6 +5,8 @@ import { ProTypo, MenuBtn } from "./style";
 import { useState } from "react";
 
 type profileProps = {
+  state: "home" | "search" | "write";
+  setState: React.Dispatch<React.SetStateAction<"home" | "search" | "write">>;
   user: {
     name: string;
     email: string;
@@ -12,9 +14,11 @@ type profileProps = {
   };
 };
 
-function Profile({ user }: profileProps) {
+function Profile({ state, setState, user }: profileProps) {
   const [clicked, setClicked] = useState(false);
-  const onClick = () => setClicked(!clicked);
+  const onMenuClick = () => setClicked(!clicked);
+  const onPictoClick = (e: any) => setState(e.target.role);
+  console.log(state);
 
   return (
     <Container margin="20px" direction="row" alginItems="center">
@@ -35,14 +39,14 @@ function Profile({ user }: profileProps) {
         </Container>
         {clicked && (
           <Container color="#d9d9d9" margin="0 0 0 10px">
-            <Pictogram type="home" />
-            <Pictogram type="search" />
-            <Pictogram type="write" />
-            <Pictogram type="logout" />
+            <Pictogram onClick={onPictoClick} role="home" type="home" />
+            <Pictogram onClick={onPictoClick} role="search" type="search" />
+            <Pictogram onClick={onPictoClick} role="write" type="write" />
+            <Pictogram onClick={onPictoClick} role="logout" type="logout" />
           </Container>
         )}
       </Box>
-      <MenuBtn onClick={onClick} open={clicked}>
+      <MenuBtn onClick={onMenuClick} open={clicked}>
         <ProTypo>{clicked ? "<" : ">"}</ProTypo>
       </MenuBtn>
     </Container>
