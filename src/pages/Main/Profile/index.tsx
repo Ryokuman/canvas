@@ -1,5 +1,6 @@
 import Container from "@components/Container";
 import Box from "@components/Box";
+import Pictogram from "@components/Pictogram";
 import { ProTypo, MenuBtn } from "./style";
 import { useState } from "react";
 
@@ -11,10 +12,10 @@ type profileProps = {
   };
 };
 
-type profileMenuProps = { clicked: boolean; setClicked: React.Dispatch<React.SetStateAction<boolean>> };
-
 function Profile({ user }: profileProps) {
   const [clicked, setClicked] = useState(false);
+  const onClick = () => setClicked(!clicked);
+
   return (
     <Container margin="20px" direction="row" alginItems="center">
       <Box width={clicked ? "340px" : "200px"} height="300px" color="#d9d9d9" alginItems="flex-start">
@@ -27,24 +28,10 @@ function Profile({ user }: profileProps) {
           </Box>
         </Container>
       </Box>
-      <ProfileMenu clicked={clicked} setClicked={setClicked} />
-    </Container>
-  );
-}
-
-function ProfileMenu({ clicked, setClicked }: profileMenuProps) {
-  const onClick = () => setClicked(!clicked);
-
-  if (clicked)
-    return (
       <MenuBtn onClick={onClick} open={clicked}>
-        <ProTypo>{"<"}</ProTypo>
+        <ProTypo>{clicked ? "<" : ">"}</ProTypo>
       </MenuBtn>
-    );
-  return (
-    <MenuBtn onClick={onClick} open={clicked}>
-      <ProTypo>{">"}</ProTypo>
-    </MenuBtn>
+    </Container>
   );
 }
 
