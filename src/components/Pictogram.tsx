@@ -15,6 +15,7 @@ const Pictogram = styled.div<PropsType>`
   width: ${(props) => props.width || "90px"};
   height: ${(props) => props.height || "90px"};
   margin: ${(props) => props.margin};
+
   ${(props) => {
     let url;
     if (props.type === "home") url = home;
@@ -24,6 +25,8 @@ const Pictogram = styled.div<PropsType>`
 
     return css`
       background-image: url(${url});
+      background-size: cover;
+      background-repeat: no-repeat;
     `;
   }}
 `;
