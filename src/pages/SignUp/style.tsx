@@ -19,8 +19,6 @@ const SignUpButton = styled(Button)`
 `;
 
 const SignUpContainer = styled(Container)`
-  width: ${(props) => props.width || "auto"};
-  height: ${(props) => props.height || "auto"};
   margin: ${(props) => props.margin || "10px"};
 `;
 
