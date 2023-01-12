@@ -31,6 +31,7 @@ const SearchInput = styled(TextField)`
   width: 500px;
   height: 24px;
   border-radius: 30px;
+  padding: 8px 50px 8px 20px;
 
   font-size: 18px;
   &::placeholder {
@@ -43,19 +44,26 @@ const SearchLogo = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
 
-  margin: 10px;
   width: 24px;
   height: 24px;
+`;
+
+const SubmitButton = styled.button.attrs({ type: "submit" })`
   cursor: pointer;
   position: relative;
-  left: -54px;
+  top: 8px;
+  left: -44px;
+  border: 0 solid;
+  background-color: #ffffff;
 `;
 
 function SearchBar() {
   return (
     <Container margin="20px" direction="row" color="#e9e8e8">
       <SearchInput placeholder="검색어를 입력해 주세요" />
-      <SearchLogo />
+      <SubmitButton>
+        <SearchLogo />
+      </SubmitButton>
     </Container>
   );
 }
