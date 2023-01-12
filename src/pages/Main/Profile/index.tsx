@@ -18,7 +18,6 @@ function Profile({ state, setState, user }: profileProps) {
   const [clicked, setClicked] = useState(false);
   const onMenuClick = () => setClicked(!clicked);
   const onPictoClick = (e: any) => setState(e.target.role);
-  console.log(state);
 
   return (
     <Container margin="20px" direction="row" alginItems="center">
