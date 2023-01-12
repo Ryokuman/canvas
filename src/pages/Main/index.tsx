@@ -1,6 +1,8 @@
 import Container from "@components/Container";
 import Post from "./Post";
 import Profile from "./Profile";
+import Search from "./Search";
+import { useState } from "react";
 
 const postData = [
   { user: "ryo_ku_man", comments: 100, tags: ["tag1", "tag2"] },
@@ -15,14 +17,17 @@ const userData = {
 };
 
 function Main() {
+  const [state, setState] = useState<"home" | "search" | "write">("home");
+
   return (
-    <Container direction="row" alginItems="flex-start">
+    <Container direction="row" width="1000px" margin="0 0 0 300px">
+      {state === "search" && <Search />}
       <Container>
-        {postData.map((e) => (
-          <Post user={e.user} comments={e.comments} tags={e.tags} />
+        {postData.map((e, i) => (
+          <Post key={i} user={e.user} comments={e.comments} tags={e.tags} />
         ))}
       </Container>
-      <Profile user={userData} />
+      <Profile state={state} setState={setState} user={userData} />
     </Container>
   );
 }

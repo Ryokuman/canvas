@@ -4,7 +4,7 @@ import Logo from "@components/Logo";
 
 function Login() {
   return (
-    <Container>
+    <Container width="100%" height="100%" alginItems="center" justifyContent="center">
       <Logo type={2} width={210} />
       <LoginTextField placeholder="E MAIL" />
       <LoginTextField placeholder="PASSWORD" />

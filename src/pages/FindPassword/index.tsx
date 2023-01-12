@@ -4,7 +4,7 @@ import Logo from "@components/Logo";
 
 function FindPassword() {
   return (
-    <Container>
+    <Container width="100%" height="100%" alginItems="center" justifyContent="center">
       <Logo type={2} width={210} />
       <FPTypo margin="20px 0 0 0">가입할 때 사용한 이메일을 입력해 주세요</FPTypo>
       <FPTypo margin="0">해당 이메일로 변경된 비밀번호를 전송됩니다.</FPTypo>

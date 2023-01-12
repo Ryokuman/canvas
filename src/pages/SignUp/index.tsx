@@ -4,7 +4,7 @@ import Logo from "@components/Logo";
 
 function SignUp() {
   return (
-    <Container>
+    <Container width="100%" height="100%" alginItems="center" justifyContent="center">
       <Logo margin="-66px 0 0 0" type={2} width={210} />
       <SignUpTextField placeholder="E MAIL" />
       <SignUpTextField placeholder="PASSWORD" />
