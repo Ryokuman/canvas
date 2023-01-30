@@ -2,9 +2,9 @@ version: "3.8"
 
 services:
   frontend:
-    build: ./
+    build: ./frontend/devDockerfile
     ports:
       - "3000:3000"
     volumes:
-      - .frontend/:/frontend
+      - ./frontend/:/frontend
     command: "yarn start"
