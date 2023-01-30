@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 import home from "@assets/images/home.png";
 import search from "@assets/images/search.png";
-import write from "@assets/images/write.png";
+// import write from "@assets/images/write.png";
 import logout from "@assets/images/logout.png";
 
 type PropsType = {
@@ -21,7 +21,7 @@ const Pictogram = styled.div<PropsType>`
     let url;
     if (props.type === "home") url = home;
     if (props.type === "search") url = search;
-    if (props.type === "write") url = write;
+    // if (props.type === "write") url = write;
     if (props.type === "logout") url = logout;
 
     return css`
