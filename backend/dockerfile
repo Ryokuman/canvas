@@ -1,2 +1,12 @@
-FROM openjdk:17
+FROM python:3.9
 
+WORKDIR /backend
+
+COPY ./ ./
+
+EXPOSE 8080
+
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt && \
+    apt-get update && \
+    apt-get -y install libgl1-mesa-glx

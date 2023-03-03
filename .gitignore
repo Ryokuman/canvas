@@ -59,3 +59,11 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### db ###
+db/data
+
+### env ###
+db.env
+.env
+dev.env

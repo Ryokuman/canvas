@@ -15,6 +15,17 @@ services:
       - build_folder:/frontend/build
     tty: true
 
+  backend:
+    build: ./backend
+    command: >
+      bash -c "python manage.py makemigrations &&
+               python manage.py migrate &&
+               python manage.py runserver 0.0.0.0:8080"
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./backend:/backend
+
   nginx:
     build: ./nginx
     ports:
@@ -23,3 +34,16 @@ services:
       - build_folder:/var/www/frontend
     depends_on:
       - frontend
+
+  mysqldb:
+    build: ./db
+    env_file:
+      - "./db/db.env"
+    ports:
+      - "8989:3306"
+    volumes:
+      - ./db:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
