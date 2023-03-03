@@ -62,4 +62,8 @@ out/
 
 ### db ###
 db/data
+
+### env ###
 db.env
+.env
+dev.env
