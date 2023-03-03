@@ -34,3 +34,16 @@ services:
       - build_folder:/var/www/frontend
     depends_on:
       - frontend
+
+  mysqldb:
+    build: ./db
+    env_file:
+      - "./db/db.env"
+    ports:
+      - "8989:3306"
+    volumes:
+      - ./db:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10

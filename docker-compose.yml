@@ -19,3 +19,19 @@ services:
       - "8080:8080"
     volumes:
       - ./backend:/app
+    depends_on:
+      mysqldb:
+        condition: service_healthy
+
+  mysqldb:
+    build: ./db
+    env_file:
+      - "./db/db.env"
+    ports:
+      - "8989:3306"
+    volumes:
+      - ./db/data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
