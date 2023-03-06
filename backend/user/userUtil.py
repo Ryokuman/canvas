@@ -1,10 +1,14 @@
 from .models import user
+import bcrypt
+import jwt
+import uuid
 
 
 # user create
-def user_create(name, email, password):
+def user_create(email, password):
     hashed_password, salt = user_hash_password(password)
-    return user.objects.create(name=name, email=email, password=hashed_password, salt=salt)
+    tmp_name = str(uuid.uuid4())[0:8]
+    return user.objects.create(email=email, password=hashed_password, salt=salt, name=tmp_name)
 
 
 # Password Hashing
