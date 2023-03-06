@@ -2,7 +2,7 @@ from .models import user
 
 
 # user create
-def user_create_client(name, email, password):
+def user_create(name, email, password):
     hashed_password, salt = user_hash_password(password)
     return user.objects.create(name=name, email=email, password=hashed_password, salt=salt)
 
