@@ -67,3 +67,6 @@ db/data
 db.env
 .env
 dev.env
+
+### pycharm ###
+__pycache__/
