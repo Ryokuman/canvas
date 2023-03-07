@@ -6,6 +6,13 @@ import { Link } from "react-router-dom";
 import Typography from "@components/Typography";
 import fonts from "@assets/fonts/fonts";
 
+const CustomForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
 const LoginTextField = styled(TextField)`
   width: ${(props) => props.width || "490px"};
   height: ${(props) => props.height || "30px"};
@@ -16,6 +23,7 @@ const LoginButton = styled(Button)`
   width: ${(props) => props.width || "508px"};
   height: ${(props) => props.height || "48px"};
   margin: ${(props) => props.margin || "10px"};
+  cursor: pointer;
 `;
 
 const LoginContainer = styled(Container)`
@@ -35,4 +43,4 @@ const LoginTypo = styled(Typography)`
   font-size: ${(props) => props.size || 18}px;
 `;
 
-export { LoginTextField, LoginButton, LoginContainer, LoginTypo, LoginLink };
+export { LoginTextField, LoginButton, LoginContainer, LoginTypo, LoginLink, CustomForm };
