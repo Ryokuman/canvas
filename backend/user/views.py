@@ -27,9 +27,14 @@ def get(request):
 def post_new(request):
     email = request.data['email']
     password = request.data['password']
-    user_create(email=email, password=password)
-
-    return JsonResponse({"result": "success"}, status=200)
+    if email and password:
+        user_data = user_find_by_email(email).first()
+        if user_data:
+            return JsonResponse({"result": "duplicated email"}, status=401)
+        else:
+            user_create(email=email, password=password)
+            return JsonResponse({"result": "success"}, status=200)
+    return JsonResponse({"result": "missing value"}, status=400)
 
 
 def post_login(request):
@@ -37,9 +42,11 @@ def post_login(request):
     password = request.data['password']
 
     user_data = user_find_by_email(email=email).first()
-    result = user_compare_password(password=password, user_data=user_data)
-
-    return JsonResponse({"result": result}, status=200)
+    if user_data:
+        result = user_compare_password(password=password, user_data=user_data)
+        if result:
+            return JsonResponse({"result": "login success"}, status=200)
+    return JsonResponse({"result": "login fail"}, status=401)
 
 
 def patch(request):
