@@ -17,7 +17,7 @@ def user_create(email, password):
 # Token
 def user_token_to_data(token):
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=ALGORITHM)
+        payload = jwt.decode(token, JWT_SECRET_KEY, algorithms=JWT_ALGORITHM)
     except jwt.exceptions.ExpiredSignatureError:
         return "Expired_Token"
     except jwt.exceptions.DecodeError:
@@ -27,7 +27,7 @@ def user_token_to_data(token):
 
 def user_refresh_to_access(refresh_token):
     try:
-        payload = jwt.decode(refresh_token, JWT_SECRET_KEY, algorithms=ALGORITHM)
+        payload = jwt.decode(refresh_token, JWT_SECRET_KEY, algorithms=JWT_ALGORITHM)
         access_token = jwt.encode({'name': payload.get('name'), 'email': payload.get('email'),
                                    'exp': datetime.utcnow() + timedelta(minutes=15), 'type': "access_token"},
                                   JWT_SECRET_KEY, JWT_ALGORITHM).decode('utf-8')

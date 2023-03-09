@@ -44,7 +44,7 @@ def user_post(request):
 
 def post_login(request):
 # auth
-@api_view(['POST'])
+@api_view(['GET', 'POST'])
 def auth(request):
     if request.method == 'GET':
         return auth_get(request)
@@ -55,7 +55,7 @@ def auth(request):
 def auth_get(request):
     token = request.headers.get('Authorization', None)
     payload = user_token_to_data(token=token)
-    user_data = user_find_by_email(payload.get('name'))
+    user_data = user_find_by_email(payload.get('email'))
     if user_data and payload.get('type') == 'refresh_token':
         access_token = user_refresh_to_access(refresh_token=token)
         return JsonResponse({"access_token": access_token}, status=401)
