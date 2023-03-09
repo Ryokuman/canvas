@@ -15,9 +15,6 @@ def user(request):
         return user_get(request)
     if request.method == 'POST':
         return user_post(request)
-            return post_new(request)
-        else:
-            return post_login(request)
     if request.method == 'PATCH':
         return user_patch(request)
 
@@ -42,7 +39,49 @@ def user_post(request):
     return JsonResponse({"result": "missing value"}, status=400)
 
 
-def post_login(request):
+# change_userdata
+def user_patch(request):
+    request_type = request.data['type']
+    if request_type == 'password':
+        return user_patch_password(request)
+    if request_type == 'name':
+        return user_patch_password(request)
+
+
+# password
+def user_patch_password(request):
+    token = request.headers.get('Authorization', None)
+    payload = user_token_to_data(token=token)
+    user_data = user_find_by_email(payload.get('email'))
+    password = request.data['password']
+    new_password = request.data['newPassword']
+
+    if user_data and new_password and password:
+        if user_compare_password(password=password, user_data=user_data):
+            hash_password, salt = user_hash_password(value.get('password'))
+            user_data.password = hash_password
+            user_data.salt = salt
+            user_data.save()
+            return JsonResponse({"result": "success"}, status=200)
+
+        return JsonResponse({"result": "wrong password"}, status=403)
+    return JsonResponse({"result": "error 401"}, status=401)
+
+
+# name
+def user_patch_name(request):
+    token = request.headers.get('Authorization', None)
+    payload = user_token_to_data(token=token)
+    user_data = user_find_by_email(payload.get('name'))
+    new_name = request.data['newName']
+
+    if user_data and new_name:
+        user_data.name = name
+        user_data.save()
+        return JsonResponse({"result": "success"}, status=200)
+    return JsonResponse({"result": "error 401"}, status=401)
+
+
 # auth
 @api_view(['GET', 'POST'])
 def auth(request):
@@ -79,7 +118,30 @@ def auth_post(request):
     return JsonResponse({"result": "login fail"}, status=401)
 
 
-def patch(request):
-    payload = user_token_to_data(request.headers.get('Authorization', None))
-    value = request.data('value')
-    return JsonResponse({"result": value}, status=200)
+# email
+@api_view(['POST'])
+def mail(request):
+    if request.method == 'POST':
+        type = request.data['type']
+        if type == "check":
+            return mail_post_check(request)
+        if type == "new":
+            return mail_post_new(request)
+
+
+# validate
+def mail_post_check(request):
+    email = request.data['email']
+    value = request.data['value']
+    checker_data = user_email_find(email=email)
+    if checker_data:
+        if checker_data.value == value:
+            return JsonResponse({"result": "success"}, status=200)
+    return JsonResponse({"result": "fail"}, status=401)
+
+
+# new_password
+def mail_post_new(request):
+    email = request.data['email']
+    user_new_email_check(email=email)
+    return JsonResponse({"result": "send Email"}, status=200)

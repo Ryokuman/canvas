@@ -12,13 +12,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECURITY WARNING: don't run with debug turned on in production!
 
+env = environ.Env(DEBUG=(bool, True))
 if is_dev:
-    env = environ.Env(DEBUG=(bool, True))
     environ.Env.read_env(
         env_file=os.path.join(BASE_DIR, 'dev.env')
     )
 else:
-    env = environ.Env(DEBUG=(bool, True))
     environ.Env.read_env(
         env_file=os.path.join(BASE_DIR, '.env')
     )
@@ -30,6 +29,12 @@ AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')
 JWT_ALGORITHM = env('JWT_ALGORITHM')
 JWT_SECRET_KEY = env('JWT_SECRET_KEY')
+
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_PORT = env('EMAIL_PORT')
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = env('EMAIL_USE_TLS')
 
 ALLOWED_HOSTS = ['*']
 
