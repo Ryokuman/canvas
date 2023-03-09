@@ -1,5 +1,7 @@
 from .models import User, EmailChecker
+from django.core.mail import send_mail
 from backend.settings import JWT_ALGORITHM, JWT_SECRET_KEY, EMAIL_HOST
+from django.utils import timezone
 from datetime import timedelta, datetime
 
 import bcrypt
@@ -71,3 +73,31 @@ def user_find_by_name(name) -> User:
 def user_find_by_email(email) -> User:
     result: User = User.objects.filter(email=email).first()
     return result
+
+
+# EmailCheck
+def user_new_email_check(email):
+    random_value = str(uuid.uuid4())[0:8]
+    msg = "validate Number : " + random_value
+    sbj = 'Canvas Email Validate'
+    user_data = user_email_find(email=email)
+
+    if user_data:
+        user_data.email = email
+        user_data.value = random_value
+        user_data.save()
+    else:
+        EmailChecker.objects.create(email=email, value=random_value)
+
+    user_delete_exp()
+    return send_mail(subject=sbj, message=msg, from_email=EMAIL_HOST, recipient_list=[email], fail_silently=False)
+
+
+def user_email_find(email) -> EmailChecker:
+    result: EmailChecker = EmailChecker.objects.filter(email=email).first()
+    return result
+
+
+def user_delete_exp():
+    minutes = 1
+    return EmailChecker.objects.filter(is_valid__lt=timezone.now() - timedelta(minutes=minutes)).delete()
