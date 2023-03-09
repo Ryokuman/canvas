@@ -4,7 +4,8 @@ from django.shortcuts import HttpResponse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .userUtil import user_create, user_compare_password, user_find_by_email, user_generate_refresh_token, \
-    user_generate_access_token, user_token_to_data, user_hash_password, user_new_email_check, user_email_find
+    user_generate_access_token, user_token_to_data, user_hash_password, user_new_email_check, user_email_find, \
+    user_refresh_to_access
 
 
 # user
@@ -49,6 +50,18 @@ def auth(request):
         return auth_get(request)
     if request.method == 'POST':
         return auth_post(request)
+
+
+def auth_get(request):
+    token = request.headers.get('Authorization', None)
+    payload = user_token_to_data(token=token)
+    user_data = user_find_by_email(payload.get('name'))
+    if user_data and payload.get('type') == 'refresh_token':
+        access_token = user_refresh_to_access(refresh_token=token)
+        return JsonResponse({"access_token": access_token}, status=401)
+    return JsonResponse({"result": "invalid Token"}, status=401)
+
+
 def auth_post(request):
     email = request.data['email']
     password = request.data['password']
