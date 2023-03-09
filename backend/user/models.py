@@ -11,3 +11,12 @@ class User(models.Model):
 
     class Meta:
         db_table = 'member'
+
+
+class EmailChecker(models.Model):
+    email = models.CharField(unique=True, max_length=50)
+    value = models.CharField(max_length=8)
+    is_valid = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'timer'
