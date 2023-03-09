@@ -1,4 +1,6 @@
-from .models import user
+from .models import User, EmailChecker
+from backend.settings import JWT_ALGORITHM, JWT_SECRET_KEY, EMAIL_HOST
+from datetime import timedelta, datetime
 import bcrypt
 import jwt
 import uuid
@@ -8,7 +10,28 @@ import uuid
 def user_create(email, password):
     hashed_password, salt = user_hash_password(password)
     tmp_name = str(uuid.uuid4())[0:8]
-    return user.objects.create(email=email, password=hashed_password, salt=salt, name=tmp_name)
+    return User.objects.create(email=email, password=hashed_password, salt=salt, name=tmp_name)
+
+
+# Token
+def user_token_to_data(token):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=ALGORITHM)
+    except jwt.exceptions.ExpiredSignatureError:
+        return "Expired_Token"
+    except jwt.exceptions.DecodeError:
+        return "Invalid_Token"
+    return payload
+def user_generate_access_token(user_data):
+    return jwt.encode({'name': user_data.name, 'email': user_data.email,
+                       'exp': datetime.utcnow() + timedelta(minutes=15), 'type': 'access_token'},
+                      JWT_SECRET_KEY, JWT_ALGORITHM).decode('utf-8')
+
+
+def user_generate_refresh_token(user_data):
+    return jwt.encode({'name': user_data.name, 'email': user_data.email,
+                       'exp': datetime.utcnow() + timedelta(days=1), 'type': "refresh_token"},
+                      JWT_SECRET_KEY, JWT_ALGORITHM).decode('utf-8')
 
 
 # Password Hashing
@@ -26,9 +49,11 @@ def user_compare_password(password, user_data):
 
 
 # find
-def user_find_by_name(name):
-    return user.objects.filter(name=name)
+def user_find_by_name(name) -> User:
+    result: User = User.objects.filter(name=name).first()
+    return result
 
 
-def user_find_by_email(email):
-    return user.objects.filter(email=email)
+def user_find_by_email(email) -> User:
+    result: User = User.objects.filter(email=email).first()
+    return result
