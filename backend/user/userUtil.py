@@ -1,6 +1,7 @@
 from .models import User, EmailChecker
 from backend.settings import JWT_ALGORITHM, JWT_SECRET_KEY, EMAIL_HOST
 from datetime import timedelta, datetime
+
 import bcrypt
 import jwt
 import uuid
@@ -22,6 +23,19 @@ def user_token_to_data(token):
     except jwt.exceptions.DecodeError:
         return "Invalid_Token"
     return payload
+
+
+def user_refresh_to_access(refresh_token):
+    try:
+        payload = jwt.decode(refresh_token, JWT_SECRET_KEY, algorithms=ALGORITHM)
+        access_token = jwt.encode({'name': payload.get('name'), 'email': payload.get('email'),
+                                   'exp': datetime.utcnow() + timedelta(minutes=15), 'type': "access_token"},
+                                  JWT_SECRET_KEY, JWT_ALGORITHM).decode('utf-8')
+    except jwt.exceptions.ExpiredSignatureError or jwt.exceptions.DecodeError:
+        return False
+    return access_token
+
+
 def user_generate_access_token(user_data):
     return jwt.encode({'name': user_data.name, 'email': user_data.email,
                        'exp': datetime.utcnow() + timedelta(minutes=15), 'type': 'access_token'},
