@@ -3,32 +3,37 @@ from django.shortcuts import HttpResponse
 
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .userUtil import user_create, user_compare_password, user_find_by_email
+from .userUtil import user_create, user_compare_password, user_find_by_email, user_generate_refresh_token, \
+    user_generate_access_token, user_token_to_data, user_hash_password, user_new_email_check, user_email_find, \
+    user_refresh_to_access
 
 
+# user
 @api_view(['GET', 'POST', 'PATCH'])
 def user(request):
     if request.method == 'GET':
-        return get(request)
+        return user_get(request)
     if request.method == 'POST':
-        if request.data['req'] == "new":
+        return user_post(request)
             return post_new(request)
         else:
             return post_login(request)
     if request.method == 'PATCH':
-        return patch(request)
+        return user_patch(request)
 
 
-def get(request):
-    value = request.GET.get('value')
-    return JsonResponse({"result": value}, status=200)
+# user_find
+# 검색 기능
+def user_get(request):
+    return
 
 
-def post_new(request):
+# signup
+def user_post(request):
     email = request.data['email']
     password = request.data['password']
     if email and password:
-        user_data = user_find_by_email(email).first()
+        user_data = user_find_by_email(email)
         if user_data:
             return JsonResponse({"result": "duplicated email"}, status=401)
         else:
@@ -38,14 +43,39 @@ def post_new(request):
 
 
 def post_login(request):
+# auth
+@api_view(['GET', 'POST'])
+def auth(request):
+    if request.method == 'GET':
+        return auth_get(request)
+    if request.method == 'POST':
+        return auth_post(request)
+
+
+def auth_get(request):
+    token = request.headers.get('Authorization', None)
+    payload = user_token_to_data(token=token)
+    user_data = user_find_by_email(payload.get('email'))
+    if user_data and payload.get('type') == 'refresh_token':
+        access_token = user_refresh_to_access(refresh_token=token)
+        return JsonResponse({"access_token": access_token}, status=401)
+    return JsonResponse({"result": "invalid Token"}, status=401)
+
+
+def auth_post(request):
     email = request.data['email']
     password = request.data['password']
 
-    user_data = user_find_by_email(email=email).first()
+    user_data = user_find_by_email(email=email)
     if user_data:
         result = user_compare_password(password=password, user_data=user_data)
         if result:
-            return JsonResponse({"result": "login success"}, status=200)
+            access_token = user_generate_access_token(user_data=user_data)
+            refresh_token = user_generate_refresh_token(user_data=user_data)
+            return JsonResponse({
+                "access_token": access_token,
+                "refresh_token": refresh_token
+            }, status=200)
     return JsonResponse({"result": "login fail"}, status=401)
 
 
